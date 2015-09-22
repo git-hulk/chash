@@ -145,7 +145,9 @@ static int _chash_add_internel(struct chashtable *cht, void *key, void *value, i
 
     ind = cht->hash_func(key) & (cht->size - 1);
     for(curr = cht->buckets[ind]; curr; curr = curr->next) {
-        if(force || !cht->comp_func(curr->key, key)) {
+        if(!cht->comp_func(curr->key, key)) {
+            if(!force) return 0;
+
             if(cht->fv_func) {
                 cht->fv_func(value);
             }
@@ -154,9 +156,8 @@ static int _chash_add_internel(struct chashtable *cht, void *key, void *value, i
             } else {
                 curr->value = value;
             }
+
             return 1;
-        } else {
-            return 0;
         }
     }
     
@@ -209,7 +210,7 @@ static void check_rehash(struct chashtable *cht) {
         curr = cht->buckets[i]; 
         while(curr) {
             next = curr->next;
-            ind = new_cht->hash_func(curr->key); 
+            ind = new_cht->hash_func(curr->key) & (new_size - 1); 
             curr->next = new_cht->buckets[ind];
             new_cht->buckets[ind] = curr;
             new_cht->used++;
