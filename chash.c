@@ -110,9 +110,8 @@ int chash_del(struct chashtable *cht, void *key) {
     struct bucket *curr, *prev;
     ind = cht->hash_func(key) & (cht->size - 1);
     for(curr = cht->buckets[ind], prev = curr; curr; curr = curr->next) {
-
         if(! cht->comp_func(curr->key, key)) {
-            if(prev == cht->buckets[ind]) {
+            if(curr == cht->buckets[ind]) {
                 cht->buckets[ind] = curr->next;
             } else {
                 prev->next = curr->next;
