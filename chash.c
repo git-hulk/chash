@@ -152,7 +152,7 @@ static int _chash_add_internel(struct chashtable *cht, void *key, void *value, i
             if(!force) return 0;
 
             if(cht->fv_func) {
-                cht->fv_func(value);
+                cht->fv_func(curr->value);
             }
             if(cht->dv_func) {
                 curr->value = cht->dv_func(value);
