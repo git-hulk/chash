@@ -57,13 +57,13 @@ struct chashtable *chash_init(int size, compare_func cfunc,  hash_func hfunc) {
     return cht;
 }
 
-void set_free_func(struct chashtable *cht, 
+void chash_set_free_func(struct chashtable *cht, 
     free_key_func fk_func, free_value_func fv_func) {
     cht->fk_func = fk_func;
     cht->fv_func = fv_func;
 }
 
-void set_dup_func(struct chashtable *cht, 
+void chash_set_dup_func(struct chashtable *cht, 
     dup_key_func dk_func, dup_value_func dv_func) {
     cht->dk_func = dk_func;
     cht->dv_func = dv_func;
@@ -85,6 +85,10 @@ void chash_destroy(struct chashtable *cht) {
 
     free(cht->buckets);
     free(cht);
+}
+
+uint64_t chash_size(struct chashtable *cht) {
+    return cht->used;
 }
 
 void *chash_get(struct chashtable *cht, void *key) {
@@ -199,8 +203,8 @@ static void check_rehash(struct chashtable *cht) {
     if(!new_cht) {
         return;
     }
-    set_dup_func(new_cht, cht->dk_func, cht->dv_func);
-    set_free_func(new_cht, cht->fk_func, cht->fv_func);
+    chash_set_dup_func(new_cht, cht->dk_func, cht->dv_func);
+    chash_set_free_func(new_cht, cht->fk_func, cht->fv_func);
 
     int i; 
     uint64_t ind;

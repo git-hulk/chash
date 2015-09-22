@@ -47,12 +47,15 @@ struct chashtable {
 };
 
 struct chashtable *chash_init(int buckets, compare_func cfunc, hash_func hfunc);
-void set_free_func(struct chashtable *cht, free_key_func fk_func, free_value_func fv_func);
-void set_dup_func(struct chashtable *cht, dup_key_func dk_func, dup_value_func dv_func);
+void chash_destroy(struct chashtable *cht); 
+void chash_set_free_func(struct chashtable *cht, free_key_func fk_func, free_value_func fv_func);
+void chash_set_dup_func(struct chashtable *cht, dup_key_func dk_func, dup_value_func dv_func);
 
 void *chash_get(struct chashtable *cht, void *key);
 int chash_del(struct chashtable *cht, void *key); 
 int chash_add(struct chashtable *cht, void *key, void *value);
 int chash_set(struct chashtable *cht, void *key, void *value);
+
+uint64_t chash_size(struct chashtable *cht);
 
 #endif
