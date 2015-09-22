@@ -5,7 +5,7 @@
 #include "chash.h"
 
 long int_hash_func(void *key) {
-    return (long) key;
+    return (long)general_int_hash_func((long)key);
 }
 
 int int_compare_func(void *key1, void *key2) {
@@ -13,12 +13,7 @@ int int_compare_func(void *key1, void *key2) {
 }
 
 long str_hash_func(void *key) {
-    char *k = (char *) key;
-    if(strlen(k) > 1) {
-        return k[0] + 10 * k[1];
-    } else {
-        return k[0];
-    }
+    return general_str_hash_func(key, strlen((char*)key));
 }
 
 int str_compare_func(void *key1, void *key2) {

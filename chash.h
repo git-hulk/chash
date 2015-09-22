@@ -46,6 +46,9 @@ struct chashtable {
     dup_value_func dv_func;
 };
 
+unsigned int general_int_hash_func(unsigned int key);
+unsigned int general_str_hash_func(const void *key, int len);
+
 struct chashtable *chash_init(int buckets, compare_func cfunc, hash_func hfunc);
 void chash_destroy(struct chashtable *cht); 
 void chash_set_free_func(struct chashtable *cht, free_key_func fk_func, free_value_func fv_func);
